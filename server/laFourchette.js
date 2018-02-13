@@ -33,14 +33,12 @@ function get_info(id, name, callback) {
                 }
                 else {
                     res.result.push('No promotion');
-                    console.log('No promotion');
                     callback(res);
                 }
             }
         });
     } else {
         res.result.push('Cannot be booked on LaFourchette');
-        console.log('Cannot be booked on LaFourchette');
         callback(res);
     }
 
