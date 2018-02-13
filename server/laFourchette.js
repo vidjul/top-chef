@@ -5,6 +5,7 @@ var cheerio = require('cheerio');
 var similarity = require('similarity');
 
 function get_info(id, name, callback) {
+    var res = { "result": [] }
     if (Number(id)) {
         const options = {
             url: 'https://www.lafourchette.com/reservation/module/date-list/' + id,
@@ -18,8 +19,7 @@ function get_info(id, name, callback) {
         request(options, function (err, resp, body) {
             if (!err) {
                 var json = JSON.parse(body);
-                var res = { "result": [] }
-                if (json.data.availabilityList != []) {
+                if (json.data.bestSaleTypeAvailable != null) {
                     for (var key in json.data.availabilityList) {
                         if (json.data.availabilityList[key].bestSaleType != null) {
                             res.result.push({
@@ -32,19 +32,24 @@ function get_info(id, name, callback) {
                     callback(res);
                 }
                 else {
+                    res.result.push('No promotion');
                     console.log('No promotion');
+                    callback(res);
                 }
             }
         });
     } else {
+        res.result.push('Cannot be booked on LaFourchette');
         console.log('Cannot be booked on LaFourchette');
+        callback(res);
     }
+
 }
 
 function get_id_by_name_addr(name, addr, callback) {
     var url = 'https://www.lafourchette.com/search-refine/' + encodeURIComponent(name);
     var bestMatchId;
-    var matchPerc = 0.;
+    var matchPerc = 0.55;
     request(url, function (err, resp, html) {
         if (!err) {
             const $ = cheerio.load(html);
@@ -59,7 +64,7 @@ function get_id_by_name_addr(name, addr, callback) {
                 get_info(bestMatchId, name, callback);
             }
             else {
-                console.log(name + ' Not referenced');
+                callback({ "result": [name + ' Not referenced'] });
             }
         }
     });

@@ -32,8 +32,6 @@ app.get('/offer/:id', function (req,res) {
     laFourchette.get(json.restaurants[req.params.id],function(result) {
         res.send(result);
     });
-    //res.send(toto);
-    //console.log(toto);
 })
 
 app.listen(3000, function () {
