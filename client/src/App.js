@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
+import { Grid, ListGroup, ListGroupItem } from 'react-bootstrap';
 import logo from './logo.svg';
 import './App.css';
 
 class Restaurant extends Component {
   render() {
     return (
-      <div>
-        <p> {this.props.name} </p>
-      </div>
+      <ListGroupItem bsStyle="success">
+        {this.props.name} - {this.props.address}
+      </ListGroupItem>
     );
   }
 }
@@ -30,7 +31,7 @@ class Offer extends Component {
     var rows = []
     this.state.offers.forEach((offer) => {
       rows.push(
-        <p> {offer.date} : {offer.offer} </p>
+        <ListGroupItem> {offer.type} : {offer.deal} </ListGroupItem>
       )
     })
 
@@ -60,10 +61,10 @@ class RestaurantTable extends Component {
     var rows = [];
     this.state.restaurants.forEach((restaurant, index) => {
       rows.push(
-        <div>
-          <Restaurant name={restaurant.name} />
+        <ListGroup>
+          <Restaurant name={restaurant.name} address={restaurant.address} />
           <Offer id={index} />
-        </div>
+        </ListGroup>
       )
     })
 
@@ -86,7 +87,10 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
+
+        <Grid>
         <RestaurantTable />
+        </Grid>
       </div>
     );
   }
