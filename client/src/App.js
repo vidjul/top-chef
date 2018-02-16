@@ -4,10 +4,25 @@ import logo from './logo.svg';
 import './App.css';
 
 class Restaurant extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      restaurant: {}
+    };
+  }
+
+  componentDidMount() {
+    return fetch('/restaurant/' + this.props.id)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.setState({ restaurant: responseJson });
+      })
+  }
+
   render() {
     return (
       <ListGroupItem bsStyle="success">
-        {this.props.name} - {this.props.address}
+        {this.state.restaurant.name} - {this.state.restaurant.address}
       </ListGroupItem>
     );
   }
@@ -16,7 +31,10 @@ class Restaurant extends Component {
 class Offer extends Component {
   constructor(props) {
     super(props);
-    this.state = { offers: [] };
+    this.state = {
+      offers: [],
+      hasOffer: false
+    };
   }
 
   componentDidMount() {
@@ -30,16 +48,33 @@ class Offer extends Component {
   render() {
     var rows = []
     this.state.offers.forEach((offer) => {
-      rows.push(
-        <ListGroupItem> {offer.type} : {offer.deal} </ListGroupItem>
-      )
+      if (offer.type) {
+        if (!((offer.deal).includes('%'))) {
+          if ((offer.deal).includes('€')) {
+            var price = ((offer.deal).match(/\d+/));
+            rows.push(
+              <ListGroupItem> {offer.type} : {offer.deal} (ou {Math.trunc(price / 6.5)} grecs, avec boisson) </ListGroupItem>
+            )
+          }
+        }
+        else {
+          rows.push(
+            <ListGroupItem> {offer.type} : {offer.deal} </ListGroupItem>
+          )
+        }
+      }
     })
-
-    return (
-      <div>
-        {rows}
-      </div>
-    )
+    if (rows.length > 0) {
+      return (
+        <ListGroup>
+          <Restaurant id={this.props.id} />
+          <ListGroup>{rows}</ListGroup>
+        </ListGroup>
+      );
+    }
+    else {
+      return null;
+    }
   }
 }
 
@@ -50,29 +85,22 @@ class RestaurantTable extends Component {
   }
 
   componentDidMount() {
-    return fetch('/restaurant')
+    return fetch('/referencedUrl')
       .then((response) => response.json())
       .then((responseJson) => {
-        this.setState({ restaurants: responseJson.restaurants });
+        this.setState({ restaurants: responseJson.urls });
       })
   }
 
   render() {
     var rows = [];
-    this.state.restaurants.forEach((restaurant, index) => {
+    this.state.restaurants.forEach((element, index) => {
       rows.push(
-        <ListGroup>
-          <Restaurant name={restaurant.name} address={restaurant.address} />
-          <Offer id={index} />
-        </ListGroup>
+        <Offer id={index} />
       )
     })
 
-    return (
-      <div>
-        {rows}
-      </div>
-    );
+    return rows;
   }
 }
 
@@ -89,7 +117,7 @@ class App extends Component {
         </p>
 
         <Grid>
-        <RestaurantTable />
+          <RestaurantTable />
         </Grid>
       </div>
     );
