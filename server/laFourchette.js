@@ -175,10 +175,15 @@ function get_urls() {
 
 function get(restaurant, callback) {
     var urls = get_urls();
-    var url = urls.urls.filter((item) => {
+    var json = urls.urls.filter((item) => {
         return item.name == restaurant.name;
     })
-    get_offer(url[0].url, callback);
+    if (json[0] != undefined) {
+        get_offer(json[0].url, callback);
+    }
+    else {
+        callback(null);
+    }
 }
 
 

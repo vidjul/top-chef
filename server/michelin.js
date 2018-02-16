@@ -11,6 +11,13 @@ function get_info(url, callback) {
             var zipcode = $('.postal-code').first().text();;
             var city = $('.locality').first().text();
             var chef = $('.field--name-field-chef').children('.field__items').text();
+            var star = 1;
+            if ($('span').hasClass('icon-cotation2etoiles')) {
+                star = 2;
+            }
+            if ($('span').hasClass('icon-cotation3etoiles')) {
+                star = 3;
+            }
             var restaurant = {
                 "name": name,
                 "road": road,
@@ -18,7 +25,8 @@ function get_info(url, callback) {
                 "city": city,
                 "address": road + ' ' + zipcode + ' ' + city,
                 "chef": chef,
-                "url": url
+                "url": url,
+                "stars": star
             };
             callback(restaurant);
         }

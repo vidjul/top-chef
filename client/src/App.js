@@ -7,8 +7,12 @@ class Restaurant extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      restaurant: {}
+      restaurant: {
+        name: "Loading..",
+        address: "Please wait!"
+      }
     };
+    
   }
 
   componentDidMount() {
@@ -22,7 +26,7 @@ class Restaurant extends Component {
   render() {
     return (
       <ListGroupItem bsStyle="success">
-        {this.state.restaurant.name} - {this.state.restaurant.address}
+        {this.state.restaurant.name} - {this.state.restaurant.address} - {'★'.repeat(this.state.restaurant.stars)}
       </ListGroupItem>
     );
   }
@@ -33,7 +37,6 @@ class Offer extends Component {
     super(props);
     this.state = {
       offers: [],
-      hasOffer: false
     };
   }
 
@@ -96,7 +99,7 @@ class RestaurantTable extends Component {
     var rows = [];
     this.state.restaurants.forEach((element, index) => {
       rows.push(
-        <Offer id={index} />
+        <Offer id={element.id} />
       )
     })
 
