@@ -1,7 +1,30 @@
 import React, { Component } from 'react';
-import { Grid, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Grid, Row, Col, ListGroup, ListGroupItem } from 'react-bootstrap';
 import logo from './logo.svg';
 import './App.css';
+import {
+  withScriptjs,
+  withGoogleMap,
+  GoogleMap,
+  Marker,
+} from "react-google-maps";
+
+const MapWithAMarker = withScriptjs(withGoogleMap(props =>
+  <GoogleMap
+    defaultZoom={8}
+    defaultCenter={{ lat: -34.397, lng: 150.644 }}
+  >
+    <Marker
+      position={{ lat: -34.397, lng: 150.644 }}
+    />
+
+    <Marker
+      position={{ lat: 34.397, lng: 150.644 }}
+    />
+
+  </GoogleMap>
+));
+
 
 class Restaurant extends Component {
   constructor(props) {
@@ -12,7 +35,7 @@ class Restaurant extends Component {
         address: "Please wait!"
       }
     };
-    
+
   }
 
   componentDidMount() {
@@ -120,7 +143,19 @@ class App extends Component {
         </p>
 
         <Grid>
-          <RestaurantTable />
+          <Row className="show-grid">
+            <Col xs={12} md={5}>
+              <RestaurantTable />
+            </Col>
+            <Col xs={12} md={7}>
+              <MapWithAMarker
+                googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyAETCw9bHicYqCFLiL1PQlw-jSAugwhEEw&v=3.exp&libraries=geometry,drawing,places"
+                loadingElement={<div style={{ height: `100%` }} />}
+                containerElement={<div style={{ height: `400px` }} />}
+                mapElement={<div style={{ height: `100%` }} />}
+              />
+            </Col>
+          </Row>
         </Grid>
       </div>
     );

@@ -50,8 +50,19 @@ function get_offer(restaurantURL, callback) {
     var result = {
         "result": []
     };
+
+
     if (restaurantURL) {
-        request(restaurantURL, function (err, resp, html) {
+
+        const configuration = {
+            'uri': restaurantURL,
+            'headers': {
+              'cookie': 'datadome=AHrlqAAAAAMAXgo5U7iYqbgALtotww==',
+              'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0'
+            }
+          };
+
+        request(configuration, function (err, resp, html) {
             if (!err) {
                 const $ = cheerio.load(html);
                 $('.saleType--specialOffer').each(function (i, elem) {
