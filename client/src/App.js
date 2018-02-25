@@ -9,6 +9,7 @@ import {
   Marker,
 } from "react-google-maps";
 
+
 const MapWithAMarker = withScriptjs(withGoogleMap(props =>
   <GoogleMap
     defaultZoom={8}
@@ -26,109 +27,111 @@ const MapWithAMarker = withScriptjs(withGoogleMap(props =>
 ));
 
 
-class Restaurant extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      restaurant: {
-        name: "Loading..",
-        address: "Please wait!"
-      }
-    };
+// class Restaurant extends Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       restaurant: {
+//         name: "Loading..",
+//         address: "Please wait!"
+//       }
+//     };
 
-  }
+//   }
 
-  componentDidMount() {
-    return fetch('/restaurant/' + this.props.id)
-      .then((response) => response.json())
-      .then((responseJson) => {
-        this.setState({ restaurant: responseJson });
-      })
-  }
+//   componentDidMount() {
+//     return fetch('/api/restaurant/' + this.props.id)
+//       .then((response) => response.json())
+//       .then((responseJson) => {
+//         this.setState({ restaurant: responseJson });
+//       })
+//   }
 
-  render() {
-    return (
-      <ListGroupItem bsStyle="success">
-        {this.state.restaurant.name} - {this.state.restaurant.address} - {'★'.repeat(this.state.restaurant.stars)}
-      </ListGroupItem>
-    );
-  }
-}
+//   render() {
+//     return (
+//       <ListGroupItem bsStyle="success">
+//         {this.state.restaurant.name} - {this.state.restaurant.address} - {'★'.repeat(this.state.restaurant.stars)}
+//       </ListGroupItem>
+//     );
+//   }
+// }
 
-class Offer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      offers: [],
-    };
-  }
+// class Offer extends Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       offers: [],
+//     };
+//   }
 
-  componentDidMount() {
-    return fetch('/offer/' + this.props.id)
-      .then((response) => response.json())
-      .then((responseJson) => {
-        this.setState({ offers: responseJson.result });
-      })
-  }
+//   componentDidMount() {
+//     return fetch('/api/offer/' + this.props.id)
+//       .then((response) => response.json())
+//       .then((responseJson) => {
+//         this.setState({ offers: responseJson });
+//       })
+//   }
 
-  render() {
-    var rows = []
-    this.state.offers.forEach((offer) => {
-      if (offer.type) {
-        if (!((offer.deal).includes('%'))) {
-          if ((offer.deal).includes('€')) {
-            var price = ((offer.deal).match(/\d+/));
-            rows.push(
-              <ListGroupItem> {offer.type} : {offer.deal} (ou {Math.trunc(price / 6.5)} grecs, avec boisson) </ListGroupItem>
-            )
-          }
-        }
-        else {
-          rows.push(
-            <ListGroupItem> {offer.type} : {offer.deal} </ListGroupItem>
-          )
-        }
-      }
-    })
-    if (rows.length > 0) {
-      return (
-        <ListGroup>
-          <Restaurant id={this.props.id} />
-          <ListGroup>{rows}</ListGroup>
-        </ListGroup>
-      );
-    }
-    else {
-      return null;
-    }
-  }
-}
+//   render() {
+//     var rows = []
+//     if (this.state.offers) {
+//       this.state.offers.forEach((offer) => {
+//         if (offer.type) {
+//           if (!((offer.deal).includes('%'))) {
+//             if ((offer.deal).includes('€')) {
+//               var price = ((offer.deal).match(/\d+/));
+//               rows.push(
+//                 <ListGroupItem> {offer.title} (ou {Math.trunc(price / 6.5)} grecs, avec boisson) </ListGroupItem>
+//               )
+//             }
+//           }
+//           else {
+//             rows.push(
+//               <ListGroupItem> {offer.title} </ListGroupItem>
+//             )
+//           }
+//         }
+//       })
+//     }
+//     if (rows.length > 0) {
+//       return (
+//         <ListGroup>
+//           <Restaurant id={this.props.id} />
+//           <ListGroup>{rows}</ListGroup>
+//         </ListGroup>
+//       );
+//     }
+//     else {
+//       return null;
+//     }
+//   }
+// }
 
-class RestaurantTable extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { restaurants: [] };
-  }
+// class RestaurantTable extends Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = { restaurants: [] };
+//   }
 
-  componentDidMount() {
-    return fetch('/referencedUrl')
-      .then((response) => response.json())
-      .then((responseJson) => {
-        this.setState({ restaurants: responseJson.urls });
-      })
-  }
+//   componentDidMount() {
+//     return fetch('/api/restaurant')
+//       .then((response) => response.json())
+//       .then((responseJson) => {
+//         this.setState({ restaurants: responseJson  });
+//       })
+//   }
 
-  render() {
-    var rows = [];
-    this.state.restaurants.forEach((element, index) => {
-      rows.push(
-        <Offer id={element.id} />
-      )
-    })
+//   render() {
+//     var rows = [];
+//     this.state.restaurants.forEach((element, index) => {
+//       rows.push(
+//         <Offer id={index} />
+//       )
+//     })
 
-    return rows;
-  }
-}
+//     return rows;
+//   }
+// }
 
 class App extends Component {
   render() {
@@ -145,7 +148,6 @@ class App extends Component {
         <Grid>
           <Row className="show-grid">
             <Col xs={12} md={5}>
-              <RestaurantTable />
             </Col>
             <Col xs={12} md={7}>
               <MapWithAMarker

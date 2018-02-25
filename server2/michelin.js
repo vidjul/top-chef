@@ -12,20 +12,19 @@ const allRestaurantPage = 'https://restaurant.michelin.fr/restaurants/france/res
 
 function getInfoOnPage(pageUrl) {
     let restaurant = {
-        "name": "",
-        "address": "",
-        "chef": "",
-        "stars": "",
-        "url": `https://restaurant.michelin.fr${pageUrl}`
+        "michelinUrl": `https://restaurant.michelin.fr${pageUrl}`,
+        "address": {}
     };
     return new Promise((resolve, reject) => {
-        request(restaurant.url, (err, resp, body) => {
+        request(restaurant.michelinUrl, (err, resp, body) => {
             if (err) {
                 return reject(err);
             }
             const $ = cheerio.load(body);
-            restaurant.name = $('h1').first().text();
-            restaurant.address = `${$('.thoroughfare').first().text()} ${$('.postal-code').first().text()} ${$('.locality').first().text()}`;
+            restaurant.mName = $('h1').first().text();
+            restaurant.address.address_road = $('.thoroughfare').first().text();
+            restaurant.address.postal_code = $('.postal-code').first().text();
+            restaurant.address.address_locality = $('.locality').first().text();
             restaurant.chef = $('.field--name-field-chef > .field__items').text();
             restaurant.stars = 1;
             if ($('span').hasClass('icon-cotation2etoiles')) {
@@ -120,7 +119,7 @@ async function scrape() {
             console.log("Writing the result on a file...");
             writeResult(result);
         })
-        .then(() => console.log('The file has been successfully written!'))
+        .then(() => console.log('The file has been successfully written! Please restart the server to proceed.'))
         .catch((err) => (console.log(err)));
 
 }
@@ -128,9 +127,10 @@ async function scrape() {
 function get() {
     if (!fs.existsSync('./output/restaurants.json')) {
         console.log('Scrapping in progress, please retry.');
-        return scrape();
+        scrape();
+        return 0;
     }
-    var content = fs.readFileSync('./output/restaurants.json', 'utf-8');
+    let content = fs.readFileSync('./output/restaurants.json', 'utf-8');
     return JSON.parse(content);
 }
 

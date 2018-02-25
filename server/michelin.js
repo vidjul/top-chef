@@ -8,9 +8,9 @@ function get_info(url, callback) {
             const $ = cheerio.load(html);
             var name = $('h1').first().text();
             var road = $('.thoroughfare').first().text();
-            var zipcode = $('.postal-code').first().text();;
+            var zipcode = $('.postal-code').first().text();
             var city = $('.locality').first().text();
-            var chef = $('.field--name-field-chef').children('.field__items').text();
+            var chef = $('.field--name-field-chef > .field__items').text();
             var star = 1;
             if ($('span').hasClass('icon-cotation2etoiles')) {
                 star = 2;
