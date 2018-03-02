@@ -13,18 +13,24 @@ app.get('/api', (req, res) => {
 
 app.get('/api/restaurant', (req, res) => {
     let onLaF = req.query.isOnLaF;
-    if (onLaF == 1){
-        let refRestaurants = [];
-        restaurants.find((restaurant) => {
-            if (restaurant.isOnLaF)
-            {
-                refRestaurants.push(restaurant);
-            }
-        });
-        res.send(refRestaurants);
+    let size = req.query.size;
+
+    if (size == 1) {
+        res.send({ 'size': restaurants.length });
     }
     else {
-        res.send(restaurants);
+        if (onLaF == 1) {
+            let refRestaurants = [];
+            restaurants.find((restaurant) => {
+                if (restaurant.isOnLaF) {
+                    refRestaurants.push(restaurant);
+                }
+            });
+            res.send(refRestaurants);
+        }
+        else {
+            res.send(restaurants);
+        }
     }
 });
 
@@ -34,11 +40,15 @@ app.get('/api/restaurant/:id', (req, res) => {
 
 
 app.get('/api/offer/:id', (req, res) => {
-    laFourchette.get(restaurants[req.params.id],res);
+    laFourchette.get(restaurants[req.params.id], res);
+});
+
+app.get('/api/offer', (req, res) => {
+    laFourchette.getOffers(res);
 });
 
 if (restaurants) {
     app.listen(3001, () => {
-        console.log('The server is running on https://localhost:3001');
+        console.log('The server is running on http://localhost:3001');
     });
 }

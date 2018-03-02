@@ -16,7 +16,9 @@ function getDealsById(restaurant) {
                 if (err) {
                     return reject(err);
                 }
-                restaurant.sales = JSON.parse(body);
+                restaurant.sales = JSON.parse(body).filter((deal) => {
+                    return deal.is_special_offer === true;
+                });
                 return resolve(restaurant);
             });
         }
@@ -28,7 +30,7 @@ function getDealsById(restaurant) {
 
 function searchRestaurant(restaurant) {
     restaurant.isOnLaF = false;
-    const matchPerc = 0.7;
+    const matchPerc = 0.64;
     const options = {
 
         'uri': apiEndPointSearch + `&search_text=${encodeURIComponent(restaurant.mName)}`,
@@ -48,6 +50,7 @@ function searchRestaurant(restaurant) {
                         restaurant.geo = resultRestaurant.geo;
                         restaurant.phone = resultRestaurant.phone;
                         restaurant.isOnLaF = true;
+                        restaurant.image = resultRestaurant.images.main[6].url;
                     }
                 }
             });
@@ -95,6 +98,14 @@ function getAllRestaurants() {
     }
 }
 
+function getAllOffers(response) {
+    restaurants = getAllRestaurants();
+    requests = restaurants.map((restaurant) => getDealsById(restaurant));
+    Promise.all(requests)
+        .then((res) => response.send(res))
+        .catch((err) => console.log(err));
+}
+
 function get(restaurant, response) {
     content = getAllRestaurants();
     if (content) {
@@ -108,4 +119,5 @@ function get(restaurant, response) {
 }
 
 exports.getAll = getAllRestaurants;
+exports.getOffers = getAllOffers;
 exports.get = get;

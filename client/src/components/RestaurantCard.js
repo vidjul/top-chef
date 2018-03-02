@@ -1,44 +1,46 @@
 import React, { Component } from 'react';
-import Offer from './Offer';
 
 class RestaurantCard extends Component {
-  constructor(props) {
-    super(props);
-    this.hideRestaurant = this.hideRestaurant.bind(this);
-    this.state = {
-      showRestaurant: true,
-      toto: '0'
-    };
-  }
 
-  hideRestaurant() {
-    this.setState({ toto: '2' });
-  }
+    render() {
+        const name = this.props.restaurant.mName;
+        const stars = this.props.restaurant.stars;
+        const address = Object.values(this.props.restaurant.address).join(' ');
+        let image = this.props.restaurant.image;
+        const sales = this.props.restaurant.sales;
 
-  render() {
+        let salesList = [];
+        if (sales) {
+            sales.forEach((deal, index) => {
+                if (deal.is_special_offer) {
+                    salesList.push(<li className="list-group-item" key={index}>{deal.title}</li>)
+                }
+            });
+        }
+        else {
+            salesList.push(
+                <li className="list-group-item">Not referenced on laFourchette</li>
+            )
+        }
 
-    if (!this.state.showRestaurant) {
-      return null;
+        if (!image) {
+            image = 'http://via.placeholder.com/664x374';
+        }
+
+        return (
+            <div class="col-sm-6 col-md-4">
+                <div className="card mb-4">
+                    <img className="card-img-top img-fluid" src={image} alt={name} />
+                    <div className="card-body">
+                        <h5 className="card-title">{name}</h5>
+                        <h6 className="card-subtitle mb-2 text-muted">{stars}</h6>
+                        <p className="card-text">{address}</p>
+                    </div>
+                    <ul className="list-group list-group-flush">{salesList}</ul>
+                </div>
+            </div>
+        )
     }
-
-    return (
-      <div class="card">
-        <div class="card-header" id="headingOne">
-          <h5 class="mb-0">
-            <button class="btn btn-link" data-toggle="collapse" data-target={'#' + this.props.id} aria-expanded="true" aria-controls="collapseOne">
-              {this.props.name} :
-              {this.state.toto}
-            </button>
-          </h5>
-        </div>
-        <div id={this.props.id} class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-          <div class="card-body">
-            <Offer id={this.props.id} show={this.hideRestaurant} />
-          </div>
-        </div>
-      </div>
-    )
-  }
 }
 
 export default RestaurantCard;
