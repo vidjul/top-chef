@@ -1,11 +1,18 @@
 const laFourchette = require('./laFourchette');
 const express = require('express');
+const path = require('path');
 
 const restaurants = laFourchette.getAll();
 
 const app = express();
 
 // --- Routes --- //
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'build')));
+}
+
+
 
 app.get('/api', (req, res) => {
     res.send('/api/restaurant for retrieving restaurant data <br /> /api/offer/id for retrieving promotion');

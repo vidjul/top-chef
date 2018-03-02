@@ -55,6 +55,11 @@ class FilterableRestaurantsContainer extends Component {
 
     render() {
         let restaurants = this.state.restaurants;
+        if (restaurants.length === 0) {
+            return (
+                <div> Veuillez patienter. </div>
+            )
+        }
         if (this.state.onLaFourchette) {
             if (this.state.restaurants) {
                 restaurants = this.state.restaurants.filter((restaurant) => {

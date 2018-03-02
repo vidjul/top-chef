@@ -21,18 +21,18 @@ class Search extends Component {
     render() {
         return (
             <form>
-                <div class="form-group">
+                <div className="form-group">
                     <label htmlFor="searchText">Rechercher un restaurant </label>
-                    <input type="text" class="form-control" id="searchText" aria-describedby="searchHelp" onKeyUp={this.handleSearch.bind(this)} placeholder="Nom du restaurant" />
-                    <small id="searchHelp" class="form-text text-muted">Entrez ici le nom d'un restaurant dont vous souhaitez consulter les informations.</small>
+                    <input type="text" className="form-control" id="searchText" aria-describedby="searchHelp" onKeyUp={this.handleSearch.bind(this)} placeholder="Nom du restaurant" />
+                    <small id="searchHelp" className="form-text text-muted">Entrez ici le nom d'un restaurant dont vous souhaitez consulter les informations.</small>
                 </div>
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="onLaF" checked={this.props.onLaFourchette} onChange={this.handleOnLaFourchette.bind(this)} />
-                    <label htmlFor="onLaF" class="form-check-label">Afficher uniquement les restaurants réservables sur laFourchette.com</label>
+                <div className="form-check">
+                    <input type="checkbox" className="form-check-input" id="onLaF" checked={this.props.onLaFourchette} onChange={this.handleOnLaFourchette.bind(this)} />
+                    <label htmlFor="onLaF" className="form-check-label">Afficher uniquement les restaurants réservables sur laFourchette.com</label>
                 </div>
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="hasDeals" checked={this.props.hasDeals} onChange={this.handleHasDeals.bind(this)} />
-                    <label htmlFor="hasDeals" class="form-check-label">Afficher uniquement les restaurants proposant des offres</label>
+                <div className="form-check">
+                    <input type="checkbox" className="form-check-input" id="hasDeals" checked={this.props.hasDeals} onChange={this.handleHasDeals.bind(this)} />
+                    <label htmlFor="hasDeals" className="form-check-label">Afficher uniquement les restaurants proposant des offres</label>
                 </div>
                 <div className="form-group">
                     <label htmlFor="stars"> Filtrer par nombre d'étoile </label>

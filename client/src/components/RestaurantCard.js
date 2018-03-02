@@ -38,7 +38,7 @@ class RestaurantCard extends Component {
                     <img className="card-img-top img-fluid" src={image} alt={name} />
                     <div className="card-body">
                         <h5 className="card-title">{name} - {chef}</h5>
-                        <h6 className="card-subtitle mb-2 text-muted">{stars}</h6>
+                        <h6 className="card-subtitle mb-2 text-muted">{'★'.repeat(+stars)}</h6>
                         <p className="card-text">{address}</p>
                         <a href={michelinUrl} className="card-link">Fiche michelin</a>
                         <a href={laFUrl} className="card-link">Fiche laFourchette</a>

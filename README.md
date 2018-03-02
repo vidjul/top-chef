@@ -2,6 +2,37 @@
 
 > Eat well and cheaper than usually
 
+## Instructions
+
+To run the application:
+* Open a terminal in the top-chef folder.
+
+```sh
+cd server2
+npm install 
+npm run prod
+```
+The application is now running on http://localhost:3001 and should have been opened in your browser.
+
+To run in development mode:
+* Open a terminal in the top-chef folder.
+```sh
+cd server2
+npm install
+npm start
+```
+
+* Open another terminal in the top-chef folder.
+```sh
+cd client
+npm install
+npm start
+```
+
+
+
+
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*

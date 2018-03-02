@@ -41,7 +41,8 @@ function searchRestaurant(restaurant) {
             if (err) {
                 return reject(err);
             }
-            body.items.forEach((resultRestaurant) => {
+            for (let i = 0; i < body.items.length; i++) {
+                resultRestaurant = body.items[i];
                 if (restaurant.address.postal_code === resultRestaurant.address.postal_code) {
                     if (similarity(restaurant.address.address_road, resultRestaurant.address.street_address) > matchPerc) {
                         restaurant.laFName = resultRestaurant.name;
@@ -51,9 +52,10 @@ function searchRestaurant(restaurant) {
                         restaurant.phone = resultRestaurant.phone;
                         restaurant.isOnLaF = true;
                         restaurant.image = resultRestaurant.images.main[6].url;
+                        break;
                     }
                 }
-            });
+            }
             return resolve(restaurant);
         });
     });
