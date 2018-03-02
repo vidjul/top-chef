@@ -133,22 +133,6 @@ function scrape() {
         })
         .then(() => console.log('The file has been successfully written! Please restart the server to proceed.'))
         .catch((err) => (console.log(err)));
-    // restaurantsPagesReq = restaurantsPagesNbr.map((pageNbr) => getRestaurantsPageOnUrl(pageNbr));
-    // console.log("Fetching the URL of all restaurants...");
-    // Promise.all(restaurantsPagesReq)
-    //     .then((result) => {
-    //         restaurantsPages = result;
-    //     })
-    //     .catch((err) => console.log(err));
-    // restaurantsInfoReq = getAllRequests(restaurantsPages);
-    // console.log("Sending all the requests...");
-    // Promise.all(restaurantsInfoReq)
-    //     .then((result) => {
-    //         console.log("Writing the result on a file...");
-    //         writeResult(result);
-    //     })
-    //     .then(() => console.log('The file has been successfully written! Please restart the server to proceed.'))
-    //     .catch((err) => (console.log(err)));
 }
 
 function get() {
