@@ -9,7 +9,7 @@ const apiEndPointSearch = 'https://m.lafourchette.com/api/restaurant/search?&off
 const apiEndPointRestaurant = 'https://m.lafourchette.com/api/restaurant/';
 
 function getDealsById(restaurant) {
-    restaurant.sales = []
+    restaurant.sales = [];
     return new Promise((resolve, reject) => {
         if (restaurant.isOnLaF) {
             request(apiEndPointRestaurant + `${restaurant.id}/sale-type`, (err, resp, body) => {

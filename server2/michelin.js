@@ -73,12 +73,14 @@ function getRestaurantsPageOnUrl(pageNbr) {
 
 function getAllRequests(restaurantsPages) {
     requests = [];
-    restaurantsPages.forEach((restaurantsPage) => {
-        restaurantsPage.forEach((restaurantPage) => {
-            requests.push(getInfoOnPage(restaurantPage));
+    return new Promise((resolve, reject) => {
+        restaurantsPages.forEach((restaurantsPage) => {
+            restaurantsPage.forEach((restaurantPage) => {
+                requests.push(getInfoOnPage(restaurantPage));
+            });
         });
+        return resolve(Promise.all(requests));
     });
-    return requests;
 }
 
 function writeResult(jsonResult) {
@@ -92,36 +94,61 @@ function writeResult(jsonResult) {
     });
 }
 
-async function scrape() {
+function totalPageNbrToArr(totalPageNbr) {
+    let restaurantsPagesNbr = [];
+    return new Promise((resolve, reject) => {
+        for (let i = 1; i < +totalPageNbr + 1; i++) {
+            restaurantsPagesNbr.push(i);
+        }
+        if (restaurantsPagesNbr !== []) {
+            return resolve(restaurantsPagesNbr);
+        }
+        else {
+            return reject();
+        }
+    });
+}
+
+function fetchAllUrls(pageArr) {
+    let reqArr = [];
+    return new Promise((resolve, reject) => {
+        reqArr = pageArr.map((page) => getRestaurantsPageOnUrl(page));
+        return resolve(Promise.all(reqArr));
+    });
+}
+
+function scrape() {
     let restaurantsPagesNbr = [];
     let restaurantsPagesReq;
     let restaurantsPages;
     let restaurantsInfoReq;
     console.log("Getting the total number of pages...");
-    await getTotalPageNbr()
-        .then((result) => {
-            for (let i = 1; i < +result + 1; i++) {
-                restaurantsPagesNbr.push(i);
-            }
-        })
-        .catch((err) => console.log(err));
-    restaurantsPagesReq = restaurantsPagesNbr.map((pageNbr) => getRestaurantsPageOnUrl(pageNbr));
-    console.log("Fetching the URL of all restaurants...");
-    await Promise.all(restaurantsPagesReq)
-        .then((result) => {
-            restaurantsPages = result;
-        })
-        .catch((err) => console.log(err));
-    restaurantsInfoReq = getAllRequests(restaurantsPages);
-    console.log("Sending all the requests...");
-    Promise.all(restaurantsInfoReq)
+    getTotalPageNbr()
+        .then((result) => totalPageNbrToArr(result))
+        .then((result) => fetchAllUrls(result))
+        .then((result) => getAllRequests(result))
         .then((result) => {
             console.log("Writing the result on a file...");
             writeResult(result);
         })
         .then(() => console.log('The file has been successfully written! Please restart the server to proceed.'))
         .catch((err) => (console.log(err)));
-
+    // restaurantsPagesReq = restaurantsPagesNbr.map((pageNbr) => getRestaurantsPageOnUrl(pageNbr));
+    // console.log("Fetching the URL of all restaurants...");
+    // Promise.all(restaurantsPagesReq)
+    //     .then((result) => {
+    //         restaurantsPages = result;
+    //     })
+    //     .catch((err) => console.log(err));
+    // restaurantsInfoReq = getAllRequests(restaurantsPages);
+    // console.log("Sending all the requests...");
+    // Promise.all(restaurantsInfoReq)
+    //     .then((result) => {
+    //         console.log("Writing the result on a file...");
+    //         writeResult(result);
+    //     })
+    //     .then(() => console.log('The file has been successfully written! Please restart the server to proceed.'))
+    //     .catch((err) => (console.log(err)));
 }
 
 function get() {
