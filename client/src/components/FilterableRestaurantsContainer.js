@@ -13,7 +13,7 @@ class FilterableRestaurantsContainer extends Component {
             allRestaurants: [],
             onLaFourchette: true,
             hasDeals: true,
-            orderByStars: 'desc'
+            filterByStars: ''
         };
     }
 
@@ -49,8 +49,8 @@ class FilterableRestaurantsContainer extends Component {
         this.setState({ hasDeals: input });
     }
 
-    orderByStars(input) {
-        this.setState({orderByStars: input});
+    filterByStars(input) {
+        this.setState({filterByStars: input});
     }
 
     render() {
@@ -70,27 +70,12 @@ class FilterableRestaurantsContainer extends Component {
                 });
             }
         }
-        if (this.state.orderByStars === 'asc') {
-            restaurants = restaurants.sort((rest1, rest2) => {
-                if (+rest1.stars < +rest2.stars) {
-                    return -1;
-                }
-                if (+rest1.stars > +rest2.stars) {
-                    return 1;
-                }
-                return 0;
-            });
-        }
-        if (this.state.orderByStars === 'desc') {
-            restaurants = restaurants.sort((rest1, rest2) => {
-                if (+rest1.stars > +rest2.stars) {
-                    return -1;
-                }
-                if (+rest1.stars < +rest2.stars) {
-                    return 1;
-                }
-                return 0;
-            });
+        if (this.state.filterByStars !== '') {
+            if (this.state.restaurants) {
+                restaurants = restaurants.filter((restaurant) => {
+                    return restaurant.stars === +this.state.filterByStars;
+                });
+            }
         }
         return (
             <div>
@@ -101,7 +86,7 @@ class FilterableRestaurantsContainer extends Component {
                         onLaFourchette={this.state.onLaFourchette}
                         filterHasDeals={this.filterHasDeals.bind(this)}
                         hasDeals={this.state.hasDeals}
-                        OrderByStars={this.orderByStars.bind(this)} />
+                        filterByStars={this.filterByStars.bind(this)} />
                 </div>
                 <div className="row">
                     <div style={{ width: '100%', height: '500px' }}>
