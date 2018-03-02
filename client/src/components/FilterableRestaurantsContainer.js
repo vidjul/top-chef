@@ -50,11 +50,10 @@ class FilterableRestaurantsContainer extends Component {
     }
 
     filterByStars(input) {
-        this.setState({filterByStars: input});
+        this.setState({ filterByStars: input });
     }
 
     render() {
-        console.log(this.state.orderByStars);
         let restaurants = this.state.restaurants;
         if (this.state.onLaFourchette) {
             if (this.state.restaurants) {
@@ -79,7 +78,7 @@ class FilterableRestaurantsContainer extends Component {
         }
         return (
             <div>
-                <div className="row">
+                <div className="container-fluid">
                     <Search
                         searchRestaurants={this.searchRestaurants.bind(this)}
                         filterOnLaFourchette={this.filterOnLaFourchette.bind(this)}
@@ -87,15 +86,19 @@ class FilterableRestaurantsContainer extends Component {
                         filterHasDeals={this.filterHasDeals.bind(this)}
                         hasDeals={this.state.hasDeals}
                         filterByStars={this.filterByStars.bind(this)} />
-                </div>
-                <div className="row">
-                    <div style={{ width: '100%', height: '500px' }}>
-                        <RestaurantMap restaurants={restaurants} />
+                    <div className="row">
+                        <div style={{ width: '100%', height: '500px' }}>
+                            <RestaurantMap restaurants={restaurants} />
+                        </div>
                     </div>
                 </div>
-                <div className="row">
-                    <RestaurantDeck
-                        restaurants={restaurants} />
+                <div className="py-5 bg-light">
+                    <div className="container">
+                        <div className="row">
+                            <RestaurantDeck
+                                restaurants={restaurants} />
+                        </div>
+                    </div>
                 </div>
             </div>
         )

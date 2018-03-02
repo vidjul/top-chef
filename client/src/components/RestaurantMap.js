@@ -5,8 +5,11 @@ class Marker extends Component {
   render() {
     return (
       <div style={{
-        position: 'relative', color: 'white', background: 'red',
-        height: 40, width: 60, top: -20, left: -30,
+        position: 'relative', color: 'blue', background: 'white', border: '5px solid #f44336', borderRadius: 40,
+        height: 40, width: 40, top: -20, left: -20,
+        textAlign: 'center',
+        fontSize: 16, fontWeight: 'bold',
+        padding: 4,
       }}>
         {this.props.text}
       </div>
