@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prod": "opn http://localhost:3001 && NODE_ENV=production node ./server"
+    "prod": "opn http://localhost:3001 && cross-env NODE_ENV=production node ./server"
   },
   "author": "Vidushan CHOORIYAKUMARAN",
   "license": "ISC",
@@ -15,5 +15,8 @@
     "similarity": "^1.1.1",
     "cheerio": "^1.0.0-rc.2",
     "request": "^2.83.0"
+  },
+  "devDependencies": {
+    "cross-env": "^5.1.3"
   }
 }
