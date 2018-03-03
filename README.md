@@ -4,6 +4,8 @@
 
 ## Instructions
 
+The application has been bundled in order to allow you to run it through one command.
+
 To run the application:
 * Open a terminal in the top-chef folder.
 
@@ -13,6 +15,8 @@ npm install
 npm run prod
 ```
 The application is now running on http://localhost:3001 and should have been opened in your browser.
+
+You can run the program in development mode, this allow you to access the API and Web pack hot reload.
 
 To run in development mode:
 * Open a terminal in the top-chef folder.
@@ -28,8 +32,6 @@ cd client
 npm install
 npm start
 ```
-
-
 
 
 
